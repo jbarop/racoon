@@ -1,5 +1,6 @@
 {
   "name": "racoon",
+  "description": "A simple dashboard for the 2020 corona pandemic",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
