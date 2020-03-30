@@ -25,7 +25,7 @@ jobs:
       run: |
         yarn gh-pages \
           --silent \
-          --repo 'https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git' \
+          --repo 'https://x-access-token:${{ secrets.DEPLOY_TOKEN }}@github.com/${{ github.repository }}.git' \
           --branch 'gh-pages' \
           --user 'Johannes Barop <jb@barop.de>' \
           --dist 'build' --message 'Uploading new version: ${{ github.sha }}'
