@@ -1,6 +1,8 @@
 # racoon - Corona Dashboard
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+![Build and deploy](https://github.com/jbarop/racoon/workflows/Build%20and%20deploy/badge.svg)
+
+Deployed [here](https://jbarop.github.io/racoon/)
 
 ## Available Scripts
 
