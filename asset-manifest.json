@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.js": "/racoon/static/js/main.b06f2ef8.chunk.js",
+    "main.js.map": "/racoon/static/js/main.b06f2ef8.chunk.js.map",
+    "runtime-main.js": "/racoon/static/js/runtime-main.86e2565e.js",
+    "runtime-main.js.map": "/racoon/static/js/runtime-main.86e2565e.js.map",
+    "static/css/2.40636a32.chunk.css": "/racoon/static/css/2.40636a32.chunk.css",
+    "static/js/2.a90463a2.chunk.js": "/racoon/static/js/2.a90463a2.chunk.js",
+    "static/js/2.a90463a2.chunk.js.map": "/racoon/static/js/2.a90463a2.chunk.js.map",
+    "index.html": "/racoon/index.html",
+    "precache-manifest.4f0e23cf91e139883df07dc5f5f01c37.js": "/racoon/precache-manifest.4f0e23cf91e139883df07dc5f5f01c37.js",
+    "service-worker.js": "/racoon/service-worker.js",
+    "static/css/2.40636a32.chunk.css.map": "/racoon/static/css/2.40636a32.chunk.css.map",
+    "static/js/2.a90463a2.chunk.js.LICENSE.txt": "/racoon/static/js/2.a90463a2.chunk.js.LICENSE.txt",
+    "static/media/semantic.min.css": "/racoon/static/media/outline-icons.ef60a4f6.woff"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.86e2565e.js",
+    "static/css/2.40636a32.chunk.css",
+    "static/js/2.a90463a2.chunk.js",
+    "static/js/main.b06f2ef8.chunk.js"
+  ]
+}
