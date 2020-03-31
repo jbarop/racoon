@@ -147,7 +147,7 @@ function App() {
         </header>
         <main>
           <Dropdown
-            placeholder='Skills'
+            placeholder='Countries'
             clearable
             fluid
             multiple
