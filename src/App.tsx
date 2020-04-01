@@ -3,15 +3,21 @@ import {Dropdown} from 'semantic-ui-react';
 import * as d3 from 'd3';
 import {DSVRowArray, DSVRowString} from 'd3';
 
-const dataSource = `${process.env.PUBLIC_URL}/COVID-19/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv`;
+const confirmedDataSource = `${process.env.PUBLIC_URL}/COVID-19/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv`;
+const deathsDataSource = `${process.env.PUBLIC_URL}/COVID-19/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv`;
 
 interface Record {
   date: Date;
   value: number;
 }
 
+interface Country {
+  confirmedPerDay: Record[]
+  deathsPerDay: Record[]
+}
+
 interface Countries {
-  [key: string]: Record[]
+  [countryName: string]: Country
 }
 
 /**
@@ -39,17 +45,20 @@ function csvRowToRecords(row: DSVRowString): { countryName: string, records: Rec
  *
  * Some countries are split across multiple rows. These are summed together.
  */
-function csvToCountries(rows: DSVRowArray): Countries {
+function csvToRecords(rows: DSVRowArray): { [countryName: string]: Record[] } {
   const countries = rows
     .map(row => csvRowToRecords(row))
-    .reduce((accumulator, it) => {
+    .reduce(
       // group by by country name because some countries are split across multiple rows
-      accumulator[it.countryName] = !accumulator[it.countryName]
-        ? it.records // new country --> insert it
-        : accumulator[it.countryName] // existing country --> add the values to the existing records.
-          .map((day, index) => ({...day, value: day.value + it.records[index].value}));
-      return accumulator;
-    }, {} as Countries);
+      (accumulator, country) => ({
+        ...accumulator,
+        [country.countryName]: !accumulator[country.countryName]
+          ? country.records // new country --> insert it
+          : accumulator[country.countryName] // existing country --> add the values to the existing records.
+            .map((day, index) => ({...day, value: day.value + country.records[index].value}))
+      }),
+      {} as { [countryName: string]: Record[] }
+    );
 
   // Filter out records with value == 0
   Object.entries(countries)
@@ -58,14 +67,40 @@ function csvToCountries(rows: DSVRowArray): Countries {
   return countries;
 }
 
+/**
+ * Builds a {@link Country} object out of the corresponding {@link Record}s.
+ */
+function recordsToCountry(
+  confirmed: { [countryName: string]: Record[] },
+  deaths: { [countryName: string]: Record[] })
+  : ({ countryName: string } & Country)[] {
+  return Object
+    .keys(confirmed)
+    .map(countryName => ({
+      countryName,
+      confirmedPerDay: confirmed[countryName],
+      deathsPerDay: deaths[countryName]
+    }));
+}
+
 function App() {
   const [selectedCountries, setSelectedCountries] = useState<string[]>(['Germany', 'Italy', 'US']);
   const [countries, setCountries] = useState<Countries>();
   const graphContainer = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    d3.csv(dataSource)
-      .then((csvRows: DSVRowArray) => setCountries(csvToCountries(csvRows)))
+    Promise.all([
+      d3.csv(confirmedDataSource),
+      d3.csv(deathsDataSource)
+    ])
+      .then(promises => promises.map(csv => csvToRecords(csv)))
+      .then(([confirmed, deaths]) => recordsToCountry(confirmed, deaths))
+      .then(countries =>
+        countries.reduce(
+          (countries, country) => ({...countries, [country.countryName]: country}),
+          {} as Countries)
+      )
+      .then(countries => setCountries(countries))
   }, []);
 
   useEffect(() => {
@@ -76,21 +111,21 @@ function App() {
     const maximumValue =
       d3.max(
         selectedCountries
-          .map(selectedCountry => countries[selectedCountry])
+          .map(selectedCountry => countries[selectedCountry].confirmedPerDay)
           .map((csvRowToRecords: Record[]) => d3.max(csvRowToRecords.map(value => value.value))!)
       )!;
 
     const minimumDate =
       d3.min(
         selectedCountries
-          .map(selectedCountry => countries[selectedCountry])
+          .map(selectedCountry => countries[selectedCountry].confirmedPerDay)
           .map((csvRowToRecords: Record[]) => d3.min(csvRowToRecords.map(value => value.date))!)
       )!;
 
     const maximumDate =
       d3.max(
         selectedCountries
-          .map(selectedCountry => countries[selectedCountry])
+          .map(selectedCountry => countries[selectedCountry].confirmedPerDay)
           .map((csvRowToRecords: Record[]) => d3.max(csvRowToRecords.map(value => value.date))!)
       )!;
 
@@ -130,11 +165,18 @@ function App() {
 
     selectedCountries.forEach(selectedCountry => {
       svg.append("path")
-        .datum(countries[selectedCountry])
+        .datum(countries[selectedCountry].confirmedPerDay)
         .attr("fill", "none")
         .attr("stroke", "steelblue")
         .attr("stroke-width", 1.5)
         .attr("d", line);
+      svg.append("path")
+        .datum(countries[selectedCountry].deathsPerDay)
+        .attr("fill", "none")
+        .attr("stroke", "steelblue")
+        .attr("stroke-width", 1.5)
+        .attr("d", line)
+        .style("stroke-dasharray", ("3, 3"));
     })
   }, [selectedCountries, countries, graphContainer]);
 
