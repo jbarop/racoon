@@ -1,23 +1,23 @@
 {
   "files": {
-    "main.js": "/racoon/static/js/main.fdd3a529.chunk.js",
-    "main.js.map": "/racoon/static/js/main.fdd3a529.chunk.js.map",
+    "main.js": "/racoon/static/js/main.cc1b2193.chunk.js",
+    "main.js.map": "/racoon/static/js/main.cc1b2193.chunk.js.map",
     "runtime-main.js": "/racoon/static/js/runtime-main.86e2565e.js",
     "runtime-main.js.map": "/racoon/static/js/runtime-main.86e2565e.js.map",
     "static/css/2.40636a32.chunk.css": "/racoon/static/css/2.40636a32.chunk.css",
-    "static/js/2.a90463a2.chunk.js": "/racoon/static/js/2.a90463a2.chunk.js",
-    "static/js/2.a90463a2.chunk.js.map": "/racoon/static/js/2.a90463a2.chunk.js.map",
+    "static/js/2.ee9bd6cf.chunk.js": "/racoon/static/js/2.ee9bd6cf.chunk.js",
+    "static/js/2.ee9bd6cf.chunk.js.map": "/racoon/static/js/2.ee9bd6cf.chunk.js.map",
     "index.html": "/racoon/index.html",
-    "precache-manifest.5e34a1bdcddb8909dc201888ad3d2749.js": "/racoon/precache-manifest.5e34a1bdcddb8909dc201888ad3d2749.js",
+    "precache-manifest.21da7eeb6d35e5b145e7521147933885.js": "/racoon/precache-manifest.21da7eeb6d35e5b145e7521147933885.js",
     "service-worker.js": "/racoon/service-worker.js",
     "static/css/2.40636a32.chunk.css.map": "/racoon/static/css/2.40636a32.chunk.css.map",
-    "static/js/2.a90463a2.chunk.js.LICENSE.txt": "/racoon/static/js/2.a90463a2.chunk.js.LICENSE.txt",
+    "static/js/2.ee9bd6cf.chunk.js.LICENSE.txt": "/racoon/static/js/2.ee9bd6cf.chunk.js.LICENSE.txt",
     "static/media/semantic.min.css": "/racoon/static/media/outline-icons.ef60a4f6.woff"
   },
   "entrypoints": [
     "static/js/runtime-main.86e2565e.js",
     "static/css/2.40636a32.chunk.css",
-    "static/js/2.a90463a2.chunk.js",
-    "static/js/main.fdd3a529.chunk.js"
+    "static/js/2.ee9bd6cf.chunk.js",
+    "static/js/main.cc1b2193.chunk.js"
   ]
 }
