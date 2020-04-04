@@ -12,7 +12,9 @@ interface Record {
 }
 
 interface Country {
+  confirmedTotalPerDay: Record[]
   confirmedPerDay: Record[]
+  deathsTotalPerDay: Record[]
   deathsPerDay: Record[]
 }
 
@@ -68,6 +70,17 @@ function csvToRecords(rows: DSVRowArray): { [countryName: string]: Record[] } {
 }
 
 /**
+ * Generates time series {@link Record}s with the daily increase.
+ */
+function generateDailyIncrease(totalRecords: Record[]): Record[] {
+  return totalRecords
+    .map((record, index) => ({
+      date: totalRecords[index].date,
+      value: index === 0 ? totalRecords[index].value : totalRecords[index].value - totalRecords[index - 1].value,
+    }))
+}
+
+/**
  * Builds a {@link Country} object out of the corresponding {@link Record}s.
  */
 function recordsToCountry(
@@ -78,8 +91,10 @@ function recordsToCountry(
     .keys(confirmed)
     .map(countryName => ({
       countryName,
-      confirmedPerDay: confirmed[countryName],
-      deathsPerDay: deaths[countryName]
+      confirmedTotalPerDay: confirmed[countryName],
+      confirmedPerDay: generateDailyIncrease(confirmed[countryName]),
+      deathsTotalPerDay: deaths[countryName],
+      deathsPerDay: generateDailyIncrease(deaths[countryName])
     }));
 }
 
